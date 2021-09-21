@@ -8,10 +8,10 @@ This module is used for the creation of ACM certificates, and verify them with t
  ```hcl
 module "acm" {
   source                            = "../modules/acm"
-  domain_name                       = "dev.nuboverflow.com"
+  domain_name                       = "dev.example.com"
   subject_alternative_name_prefixes = ["www", "*"]
-  hosted_zone                       = "nuboverflow.com"
-  acm_certificate_domain            = "nuboverflow.com"
+  hosted_zone                       = "example.com"
+  acm_certificate_domain            = "example.com"
   preprod_env_prefixes              = ["dev", "stg"]
 }
  ```
