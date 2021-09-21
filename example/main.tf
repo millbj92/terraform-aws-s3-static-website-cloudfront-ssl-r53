@@ -4,10 +4,10 @@ provider "aws" {
 
 module "acm" {
   source                            = "../modules/acm"
-  domain_name                       = "dev.nuboverflow.com"
+  domain_name                       = "dev.example.com"
   subject_alternative_name_prefixes = ["www", "*"]
-  hosted_zone                       = "nuboverflow.com"
-  acm_certificate_domain            = "nuboverflow.com"
+  hosted_zone                       = "example.com"
+  acm_certificate_domain            = "example.com"
   preprod_env_prefixes              = ["dev", "stg"]
 }
 
@@ -15,8 +15,8 @@ module "acm" {
 
 module "s3_static_website" {
   source                = "../modules/s3_static_website"
-  domain_name           = "dev.nuboverflow.com"
-  hosted_zone_domain    = "nuboverflow.com"
+  domain_name           = "dev.example.com"
+  hosted_zone_domain    = "example.com"
   aws_certificate_arn   = module.acm.acm_certificate_arn
   use_default_domain    = false
   logging               = true

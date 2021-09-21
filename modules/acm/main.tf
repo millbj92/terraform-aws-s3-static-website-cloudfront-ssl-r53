@@ -1,15 +1,15 @@
 provider "aws" {
   region = "us-east-1"
   alias  = "aws_cloudfront"
-} 
- 
- locals{
+}
+
+locals {
   default_certs             = var.use_default_domain ? ["default"] : []
   acm_certs                 = var.use_default_domain ? [] : ["acm"]
   domain_name               = var.use_default_domain ? [] : [var.domain_name]
   joined_list               = concat(var.subject_alternative_name_prefixes, var.preprod_env_prefixes)
   subject_alternative_names = var.use_default_domain ? formatlist("%s.${var.domain_name[0]}", local.joined_list) : []
- }
+}
 
 # This creates an SSL certificate
 resource "aws_acm_certificate" "domain_name" {

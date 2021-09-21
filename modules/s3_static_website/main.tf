@@ -8,7 +8,7 @@ provider "aws" {
 locals {
   default_certs = var.use_default_domain ? ["default"] : []
   acm_certs     = var.use_default_domain ? [] : ["acm"]
-  domain_name               = var.use_default_domain ? [] : [var.domain_name]
+  domain_name   = var.use_default_domain ? [] : [var.domain_name]
 }
 
 data "aws_route53_zone" "main" {
@@ -98,7 +98,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
     }
   }
-  
+
   dynamic "logging_config" {
     for_each = var.logging == true ? [1] : []
     content {
@@ -148,7 +148,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       restriction_type = "none"
     }
   }
-  
+
   dynamic "viewer_certificate" {
     for_each = local.default_certs
     content {

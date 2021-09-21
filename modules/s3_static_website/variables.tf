@@ -7,7 +7,7 @@ variable "domain_name" {
 
 variable "hosted_zone_domain" {
   description = "The root domain of your website. No subdomains. (example.com)"
-  type = string
+  type        = string
 }
 
 variable "tags" {
@@ -47,7 +47,7 @@ variable "use_bucket_encryption" {
 }
 
 variable "aws_certificate_arn" {
-  type = string
+  type        = string
   description = "ARN for SSL certificate. Only needed for custom domain names."
 }
 
