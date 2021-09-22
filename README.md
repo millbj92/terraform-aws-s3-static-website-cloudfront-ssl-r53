@@ -2,6 +2,9 @@
 
 This module allows the creation of a static S3 website, with Cloudfront as the CDN, with automatic ACM and Route53 configurations.
 
+## Motivation
+ I have seen modules that do exactly what I'm doing here a few times, but they always seem to be in a flat structure (nothing wrong with that!). I thought it may provide a little more value if we could separate the provisioning of ACM / Route53 into it's own module, since it accomplishes one goal. For instance, I may want to provision a cert and dns records, but not necessarily for a static S3 bucket. The s3_static_website module still isn't fully standalone yet, but hopefully with a few minor tweaks I can get that working as well :)
+
  Optionally you can also use this module to:
   - Deploy a redirect bucket to redirect www to non-www.
   - Enable KMS encryption on your S3 log buckets.
