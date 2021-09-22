@@ -32,7 +32,7 @@ module "s3_static_website" {
   enable_key_rotation    = var.enable_key_rotation
   tags                   = var.tags
   deploy_redirect_bucket = var.deploy_redirect_bucket
-  force_destroy = var.force_destroy
+  force_destroy          = var.force_destroy
 }
 
 data "aws_route53_zone" "main" {

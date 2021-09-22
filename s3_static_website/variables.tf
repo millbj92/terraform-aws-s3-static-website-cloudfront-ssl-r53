@@ -59,8 +59,8 @@ variable "enable_key_rotation" {
 }
 
 variable "force_destroy" {
-  type = bool
-  default = false 
+  type        = bool
+  default     = false
   description = "This value will force-delete your buckets with files sill inside. You have been warned. Do not use in Prod."
 }
 

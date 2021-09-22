@@ -1,5 +1,89 @@
 # BMIO_S3_Static_Website
 
+This module allows the creation of a static S3 website, with Cloudfront as the CDN, with automatic ACM and Route53 configurations.
+
+ Optionally you can also use this module to:
+  - Deploy a redirect bucket to redirect www to non-www.
+  - Enable KMS encryption on your S3 log buckets.
+  - Enable KMS key rotation.
+  - Enable access logging for buckets and Cloudfront.
+  - Apply IaM policies so only Cloudfront can access your buckets directly.
+
+ Usage:
+
+ Example of 's3_static_website" module in `main.tf`.
+
+ ```hcl
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "3.59.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+module "acm" {
+  source                            = "./acm"
+  domain_name                       = var.domain_name
+  subject_alternative_name_prefixes = var.subject_alternative_name_prefixes
+  hosted_zone                       = var.hosted_zone
+  acm_certificate_domain            = var.acm_certificate_domain
+  preprod_env_prefixes              = var.preprod_env_prefixes
+}
+
+module "s3_static_website" {
+  source                 = "./s3_static_website"
+  domain_name            = var.domain_name
+  hosted_zone_domain     = var.hosted_zone
+  aws_certificate_arn    = module.acm.acm_certificate_arn
+  use_default_domain     = var.use_default_domain
+  logging                = var.logging
+  use_bucket_encryption  = var.use_bucket_encryption
+  enable_key_rotation    = var.enable_key_rotation
+  tags                   = var.tags
+  deploy_redirect_bucket = var.deploy_redirect_bucket
+  force_destroy = var.force_destroy
+}
+
+data "aws_route53_zone" "main" {
+  name         = var.hosted_zone
+  private_zone = false
+}
+
+resource "aws_route53_record" "website_cdn_root_record" {
+  zone_id = data.aws_route53_zone.main.zone_id
+  name    = var.domain_name
+  type    = "A"
+
+  alias {
+    name                   = module.s3_static_website.cloudfront_domain_name
+    zone_id                = module.s3_static_website.cloudfront_zone_id
+    evaluate_target_health = false
+  }
+}
+}
+ ```
+
+ This module can be ran stand-alone with just a .tfvars file / env variables; or you may couple it with other modules for CI/CD, etc.
+
+ **If you notice any issues with the module, please raise an issue! I'm here to help! I plan on using my modules in a personal project, so I want them to be top-notch!**
+
+ *Please Note* While I have tried to follow the best security practices out-of-the-box, there is still some recommended setup. Please consider creating a WAF ([Web application Firewall](https://aws.amazon.com/waf/)) in front of your cloudfront distribution. It is highly recommended that you use one, especially in a production environment. That said, WAF's are very situation-specific, so I cannot guess how your setup should behave.
+ [WAF Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl). Last but not least, you may also want to add a Lambda@Edge function between cloudfront and your bucket, to add an extra layer of security headers.
+
+  #### Running the module
+
+ To run the module, simply plug in the values below into a .tfvars file or export the equivalent env variables, and run the below commands
+
+   - `terraform init`
+   - `terraform plan` (make sure you like what you see on the console before going to the next step!)
+   - `terraform apply`
+
 #### Requirements
 
 | Name | Version |
@@ -36,6 +120,7 @@
 | <a name="input_aws_certificate_arn"></a> [aws_certificate_arn](#input_aws_certificate_arn) | ARN for SSL certificate. Only needed for custom domain names. | `string` |
 | <a name="input_deploy_redirect_bucket"></a> [deploy_redirect_bucket](#input_deploy_redirect_bucket) | Set this to true to deploy a bucket what will redirect from www to non-www | `bool` |
 | <a name="input_enable_key_rotation"></a> [enable_key_rotation](#input_enable_key_rotation) | Set this to true in order to enable key rotation. Only works if use_bucket_encryption is true. Recommend setting to true so you don't get locked out of your buckets! | `bool` |
+| <a name="input_force_destroy"></a> [force_destroy](#input_force_destroy) | This value will force-delete your buckets with files sill inside. You have been warned. Do not use in Prod. | `bool` |
 | <a name="input_log_cookies"></a> [log_cookies](#input_log_cookies) | Log cookies in cloudfront. Only works in logging is true. | `bool` |
 | <a name="input_logging"></a> [logging](#input_logging) | Use logging for resources. Will create an extra bucket. | `bool` |
 | <a name="input_preprod_env_prefixes"></a> [preprod_env_prefixes](#input_preprod_env_prefixes) | Use these to register subdomains in Route53. Leave this empty if you don't want subdomains. | `list(string)` |

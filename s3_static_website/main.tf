@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "s3_bucket_policy" {
 }
 
 data "aws_iam_policy_document" "s3_bucket_policy2" {
-  count  = var.deploy_redirect_bucket ? 1 : 0
+  count = var.deploy_redirect_bucket ? 1 : 0
   statement {
     sid = "1"
 
@@ -218,7 +218,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution2" {
-  count  = var.deploy_redirect_bucket ? 1 : 0
+  count = var.deploy_redirect_bucket ? 1 : 0
   origin {
     domain_name = "www.${var.domain_name}.s3.amazonaws.com"
     origin_id   = "s3-cloudfront"
