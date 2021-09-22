@@ -48,7 +48,8 @@ variable "use_bucket_encryption" {
 
 variable "aws_certificate_arn" {
   type        = string
-  description = "ARN for SSL certificate. Only needed for custom domain names."
+  default     = null
+  description = "SSL Certificate used to link the Cloudfront resource to the dns record."
 }
 
 variable "enable_key_rotation" {
@@ -57,5 +58,16 @@ variable "enable_key_rotation" {
   description = "Set this to true in order to enable key rotation. Only works if use_bucket_encryption is true. Recommend setting to true so you don't get locked out of your buckets!"
 }
 
+variable "force_destroy" {
+  type = bool
+  default = false 
+  description = "This value will force-delete your buckets with files sill inside. You have been warned. Do not use in Prod."
+}
+
+variable "deploy_redirect_bucket" {
+  description = "Set this to true to deploy a bucket what will redirect from www to non-www"
+  type        = bool
+  default     = false
+}
 
 
