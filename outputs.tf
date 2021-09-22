@@ -1,5 +1,5 @@
 output "acm_certificate_arn" {
-  value = module.acm.acm_certificate_arn
+  value       = module.acm.acm_certificate_arn
   description = "The ARN of the SSL certificate returned from ACM."
 }
 output "cloudfront_domain_name" {

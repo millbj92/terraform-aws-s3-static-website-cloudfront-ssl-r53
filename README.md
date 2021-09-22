@@ -134,7 +134,7 @@ resource "aws_route53_record" "website_cdn_root_record" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_acm_certificate_arn"></a> [acm_certificate_arn](#output_acm_certificate_arn) | n/a |
+| <a name="output_acm_certificate_arn"></a> [acm_certificate_arn](#output_acm_certificate_arn) | The ARN of the SSL certificate returned from ACM. |
 | <a name="output_cloudfront_dist_id"></a> [cloudfront_dist_id](#output_cloudfront_dist_id) | Cloudfront Distribution ID for this site. |
 | <a name="output_cloudfront_domain_name"></a> [cloudfront_domain_name](#output_cloudfront_domain_name) | The domain name used by your cloudfront distribution. If you are using the 'default_domain' variable, you would use this. |
 | <a name="output_log_bucket_KMS_key_arn"></a> [log_bucket_KMS_key_arn](#output_log_bucket_KMS_key_arn) | The arn of the created KMS key for the logging bucket. Used for encrypting/decrypting the bucket. |
