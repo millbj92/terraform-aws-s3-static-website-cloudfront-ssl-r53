@@ -39,7 +39,7 @@ terraform {
 }
 
 module "aws_static_website" {
-  source = "github.com/brandonmillerio/terraform-aws-s3_static_website"
+  source = "github.com/millbj92/terraform-aws-s3_static_website"
   //common
   domain_name = var.domain_name
 
