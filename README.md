@@ -61,7 +61,6 @@ module "aws_static_website" {
 ```
 &nbsp;
 ## Documentation
-&nbsp;
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 #### Requirements
 
