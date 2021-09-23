@@ -26,7 +26,7 @@ This module allows the creation of a static S3 website, with Cloudfront as the C
    - `terraform init`
    - `terraform plan` (make sure you like what you see on the console before going to the next step!)
    - `terraform apply`
-
+ 
 ## Example
 ```hcl
 terraform {
