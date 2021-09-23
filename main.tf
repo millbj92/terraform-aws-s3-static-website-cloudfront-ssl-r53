@@ -1,11 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "3.59.0"
-    }
-  }
-}
 
 provider "aws" {
   region = "us-east-1"
@@ -24,7 +16,6 @@ module "acm" {
 module "s3_static_website" {
   source                 = "./s3_static_website"
   domain_name            = var.domain_name
-  hosted_zone_domain     = var.hosted_zone
   aws_certificate_arn    = module.acm.acm_certificate_arn
   use_default_domain     = var.use_default_domain
   logging                = var.logging

@@ -5,11 +5,6 @@ variable "domain_name" {
   type        = string
 }
 
-variable "hosted_zone_domain" {
-  description = "The root domain of your website. No subdomains. (example.com)"
-  type        = string
-}
-
 variable "tags" {
   description = "Tags to set on the resources."
   type        = map(string)

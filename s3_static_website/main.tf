@@ -1,6 +1,7 @@
 
 
 provider "aws" {
+  //This provider is needed as cloudfront needs us-east-1
   region = "us-east-1"
   alias  = "aws_cloudfront"
 }
